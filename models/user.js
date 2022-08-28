@@ -15,5 +15,20 @@ UserSchema.virtual("url").get(function () {
   return `/user/${this._id}`;
 });
 
+UserSchema.statics.findByLogin = async function (login) {
+  let user = await this.findOne({
+    name: login,
+  });
+
+  if (!user) {
+    // user = await this.findOne({ email: login });
+    user = await this.findOne({
+      name: "lk",
+    });
+  }
+
+  return user;
+};
+
 //Export model
 module.exports = mongoose.model("User", UserSchema);

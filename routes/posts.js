@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 
 // Require controller modules.
 const user_controller = require("../controllers/userController");
 const post_controller = require("../controllers/postController");
 
 // GET request for list of all Post items.
-router.get("/", post_controller.post_list);
+router.get("/", passport.authenticate("session"), post_controller.post_list);
 
 // GET request for one Post.
 router.get("/post/:id", post_controller.post_detail);

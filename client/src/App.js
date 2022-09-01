@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Link, Outlet } from "react-router-dom";
-import Home from "./components/Home";
+import Home from "./components/Home.js";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -8,7 +9,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Login />} />
+            <Route path="/home" element={<Home />} />
           </Route>
         </Routes>
       </BrowserRouter>

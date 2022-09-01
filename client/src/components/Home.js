@@ -79,19 +79,17 @@ function Home() {
         />
         <button type="submit">Post</button>
       </form>
-      {posts.map((post) => {
+      {/* {posts.map((post) => {
         return (
           <div key={post._id}>
             {post.text}
-            {/* <button value={post._id} onClick={handleEdit}>
-              Edit
-            </button> */}
+
             <button value={post._id} onClick={handleDelete}>
               Delete
             </button>
           </div>
         );
-      })}
+      })}{" "} */}
     </div>
   );
 }

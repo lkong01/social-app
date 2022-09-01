@@ -5,6 +5,9 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 require("dotenv").config();
 var cors = require("cors");
+const session = require("express-session");
+const passport = require("passport");
+const bcrypt = require("bcryptjs");
 
 var app = express();
 const mongoose = require("mongoose");
@@ -21,16 +24,21 @@ mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-app.use(async (req, res, next) => {
-  req.context = {
-    me: await User.findByLogin("lk"),
-  };
-  next();
-});
+// app.use(async (req, res, next) => {
+//   req.context = {
+//     me: await User.findByLogin("lk"),
+//   };
+//   next();
+// });
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.authenticate("session"));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -40,6 +48,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 
+app.use(function (req, res, next) {
+  // console.log(req.user);
+  res.locals.currentUser = req.user;
+  next();
+});
+
+//Routes
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter); // Add catalog routes to middleware chain.

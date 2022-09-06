@@ -10,7 +10,9 @@ function Home() {
   const [newPost, setNewPost] = useState("What's happening?");
 
   const fetchItems = async () => {
-    const res = await axios.get("http://localhost:3000/posts/");
+    const res = await axios.get("http://localhost:3000/posts/", {
+      withCredentials: true,
+    });
     console.log(res.data);
     setPosts(res.data);
   };
@@ -18,13 +20,17 @@ function Home() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:3000/posts/post/create", {
+    axios({
+      method: "post",
+      url: "http://localhost:3000/posts/post/create",
+      data: {
         text: newPost,
-      })
+      },
+      withCredentials: true,
+    })
       .then(function (response) {
         console.log(response);
-        window.location.reload();
+        //window.location.reload();
       })
       .catch(function (error) {
         console.log(error);

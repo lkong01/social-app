@@ -1,19 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   function handleSubmit(e) {
     e.preventDefault();
 
-    axios
-      .post(process.env.REACT_APP_api + "/login", {
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:3000/login",
+      data: {
         username,
         password,
-      })
-      .then((res) => console.log(res));
+      },
+      withCredentials: true,
+    }).then(async (res) => {
+      if (res.data.isAuthenticated) {
+        setIsAuthenticated(true);
+        console.log(res.data.isAuthenticated);
+
+        //navigate("/home");
+      } else {
+        //navigate("/");
+      }
+    });
   }
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -33,6 +50,15 @@ function Login() {
         />
         <button>submit</button>
       </form>
+      <button
+        onClick={() =>
+          axios.get(process.env.REACT_APP_api + "/log-out").then((res) => {
+            console.log(res.data);
+          })
+        }
+      >
+        logout
+      </button>
     </div>
   );
 }

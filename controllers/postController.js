@@ -3,6 +3,7 @@ const User = require("../models/user");
 
 // Display list of all Posts.
 exports.post_list = async (req, res) => {
+  console.log("postlist", req.isAuthenticated());
   if (req.isAuthenticated()) {
     console.log(res.locals);
     const posts = await Post.find();

@@ -35,8 +35,17 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
-app.use(passport.authenticate("session"));
+app.use(
+  session({
+    secret: "cats",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      sameSite: "none",
+    },
+  })
+);
+// app.use(passport.authenticate("session"));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -47,6 +56,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
+// const corsConfig = {
+//   credentials: true,
+//   origin: true,
+// };
+// app.use(cors(corsConfig));
 
 app.use(function (req, res, next) {
   // console.log(req.user);

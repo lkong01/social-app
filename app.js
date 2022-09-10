@@ -17,6 +17,7 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
 const postRouter = require("./routes/post");
+const commentRouter = require("./routes/comment");
 
 const User = require("./models/user");
 
@@ -173,6 +174,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter); // Add catalog routes to middleware chain.
 app.use("/post", postRouter);
+app.use("/comment", commentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

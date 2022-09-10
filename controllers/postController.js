@@ -12,14 +12,19 @@ exports.posts_list = async (req, res) => {
   // };
 };
 
-exports.post_create = async (req, res) => {
+exports.post_create = (req, res) => {
   // if (req.isAuthenticated()) {
-  const post = await Post.create({
+  const post = Post.create({
     text: req.body.text,
     author: req.context.me._id,
-  });
+  })
+    .then(function (response) {
+      res.send(post);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
-  return res.send(post);
   // } else {
   //   res.send("You are not authenticated");
   // }

@@ -5,7 +5,7 @@ const PostSchema = new Schema(
   {
     author: { type: Schema.Types.ObjectId, ref: "User" },
     text: { type: String, required: true },
-    comment: { type: Schema.Types.ObjectId, ref: "Comment" },
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
   { timestamps: true }
 );

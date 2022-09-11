@@ -6,6 +6,7 @@ const UserSchema = new Schema(
   {
     username: { type: String, required: true, maxLength: 100 },
     password: { type: String, required: true },
+    friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );
@@ -18,13 +19,13 @@ UserSchema.virtual("url").get(function () {
 
 UserSchema.statics.findByLogin = async function (login) {
   let user = await this.findOne({
-    name: login,
+    username: login,
   });
 
   if (!user) {
     // user = await this.findOne({ email: login });
     user = await this.findOne({
-      name: "lk",
+      username: "q",
     });
   }
 

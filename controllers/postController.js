@@ -4,7 +4,7 @@ const User = require("../models/user");
 // get all posts.
 exports.posts_list = async (req, res) => {
   // if (req.isAuthenticated()) {
-  const posts = await Post.find().sort({ updatedAt: "desc" });
+  const posts = await Post.find().sort({ createdAt: "desc" });
   return res.send(posts);
   //   } else {
   //     res.send("You are not authenticated");

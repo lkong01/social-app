@@ -28,7 +28,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use(async (req, res, next) => {
   req.context = {
-    me: await User.findByLogin("lk"),
+    me: await User.findByLogin("q"),
   };
   next();
 });
@@ -131,7 +131,7 @@ passport.use(
       if (!user) return done(null, false);
 
       bcrypt.compare(password, user.password, (err, result) => {
-        console.log(password, user, result);
+        // console.log(password, user, result);
         if (err) throw err;
         if (result === true) {
           return done(null, user);
@@ -146,9 +146,10 @@ passport.use(
 passport.serializeUser((user, cb) => {
   console.log("serilize");
   cb(null, user.id);
+  console.log(user.id);
 });
 passport.deserializeUser((id, cb) => {
-  User.findOne({ _id: id }, (err, user) => {
+  User.findById(id, (err, user) => {
     console.log("deserilieze");
     // const userInformation = {
     //   username: user.username,
@@ -156,6 +157,7 @@ passport.deserializeUser((id, cb) => {
     cb(err, user);
   });
 });
+
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Credentials", true);
   res.header("Access-Control-Allow-Origin", req.headers.origin);

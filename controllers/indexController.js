@@ -25,8 +25,8 @@ exports.signUp = async (req, res) => {
 
 exports.login = (req, res, next) => {
   //if (err) next(err);
-  //console.log(res);
-  return res.send({ isAuthenticated: req.isAuthenticated() });
+  console.log("here");
+  return res.send(req);
 };
 
 exports.logout = (req, res) => {
@@ -34,7 +34,7 @@ exports.logout = (req, res) => {
     if (err) {
       return next(err);
     }
-    console.log("here?");
+
     res.send({ message: "you're logged out" });
   });
 };

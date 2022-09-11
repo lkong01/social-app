@@ -25,15 +25,14 @@ router.post(
       if (!user) res.send("Incorrect username or password.");
       else {
         req.logIn(user, async (err) => {
-          console.log("login");
           if (err) throw err;
 
           res.send(req.user);
         });
       }
     })(req, res, next);
-  },
-  index_controller.login
+  }
+  // index_controller.login
 );
 router.get("/logout", index_controller.logout);
 

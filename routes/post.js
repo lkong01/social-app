@@ -6,6 +6,7 @@ const passport = require("passport");
 const user_controller = require("../controllers/userController");
 const post_controller = require("../controllers/postController");
 const comment_controller = require("../controllers/commentController");
+const like_controller = require("../controllers/likeController");
 
 // POST request for creating Post.
 router.post("/", post_controller.post_create);
@@ -31,5 +32,10 @@ router.delete("/:postId/comment/:commentId", comment_controller.comment_delete);
 
 // GET request to update comment.
 router.put("/:postId/comment/:commentId", comment_controller.comment_update);
+
+/***********  like controller ***************/
+router.get("/:id/likes", like_controller.likes_list);
+router.post("/:id/like", like_controller.like_create);
+router.delete("/:id/like", like_controller.like_delete);
 
 module.exports = router;

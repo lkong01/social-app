@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const multer = require("multer");
 
 // Require controller modules.
 const user_controller = require("../controllers/userController");
@@ -8,8 +9,66 @@ const post_controller = require("../controllers/postController");
 const comment_controller = require("../controllers/commentController");
 const like_controller = require("../controllers/likeController");
 
+const Post = require("../models/post");
+
+const DIR = "./public/images/";
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    console.log("file", file);
+    cb(null, DIR);
+  },
+  filename: (req, file, cb) => {
+    const fileName = file.originalname.toLowerCase().split(" ").join("-");
+    cb(null, Date.now() + "-" + fileName);
+  },
+});
+var upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
+    }
+  },
+});
+
 // POST request for creating Post.
-router.post("/", post_controller.post_create);
+// router.post("/", post_controller.post_create);
+router.post("/", upload.single("image"), (req, res, next) => {
+  const url = req.protocol + "://" + req.get("host");
+
+  const imgName = req.file ? req.file.filename : "";
+  // if (req.isAuthenticated()) {
+  console.log(req.body.text, req.context.me._id, imgName, url);
+  const post = new Post({
+    text: req.body.text,
+    author: req.context.me._id,
+    image: url + "/images/" + imgName,
+  });
+  post
+    .save()
+    .then((result) => {
+      res.status(201).json({
+        message: "User registered successfully!",
+        userCreated: {
+          _id: result._id,
+          profileImg: result.profileImg,
+        },
+      });
+    })
+    .catch((err) => {
+      console.log(err),
+        res.status(500).json({
+          error: err,
+        });
+    });
+});
 
 // GET request for one Post.
 router.get("/:id", post_controller.post_detail);

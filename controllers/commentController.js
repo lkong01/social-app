@@ -5,7 +5,7 @@ const Post = require("../models/post");
 exports.comments_list = () => {};
 // get all comments of a post
 exports.comments_list = async (req, res) => {
-  console.log(req.params);
+  // console.log(req.params);
   const comments = await Post.findById(req.params.id)
     .sort({ updatedAt: "desc" })
     .populate("comments");

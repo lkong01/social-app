@@ -9,12 +9,13 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
+const bodyParser = require("body-parser");
 
 var app = express();
 const mongoose = require("mongoose");
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const userRouter = require("./routes/user");
 const postsRouter = require("./routes/posts");
 const postRouter = require("./routes/post");
 
@@ -172,7 +173,7 @@ app.set("trust proxy", 1);
 
 //Routes
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/user", userRouter);
 app.use("/posts", postsRouter); // Add catalog routes to middleware chain.
 app.use("/post", postRouter);
 

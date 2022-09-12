@@ -7,6 +7,14 @@ const UserSchema = new Schema(
     username: { type: String, required: true, maxLength: 100 },
     password: { type: String, required: true },
     friends: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    // avatar: {
+    //   // type: Buffer, // casted to MongoDB's BSON type: binData
+    //   data: Buffer,
+    //   contentType: String
+    // },
+    profileImg: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

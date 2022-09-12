@@ -1,10 +1,13 @@
 const Post = require("../models/post");
 const User = require("../models/user");
+const multer = require("multer");
 
 // get all posts.
 exports.posts_list = async (req, res) => {
   // if (req.isAuthenticated()) {
-  const posts = await Post.find().sort({ createdAt: "desc" });
+  const posts = await Post.find()
+    .sort({ createdAt: "desc" })
+    .populate("author");
   return res.send(posts);
   //   } else {
   //     res.send("You are not authenticated");
@@ -12,23 +15,27 @@ exports.posts_list = async (req, res) => {
   // };
 };
 
-exports.post_create = (req, res) => {
-  // if (req.isAuthenticated()) {
-  const post = Post.create({
-    text: req.body.text,
-    author: req.context.me._id,
-  })
-    .then(function (response) {
-      res.send(post);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+// exports.post_create = (req, res) => {
+//   const url = req.protocol + "://" + req.get("host");
 
-  // } else {
-  //   res.send("You are not authenticated");
-  // }
-};
+//   const imgName = req.file ? req.file.filename : "";
+//   // if (req.isAuthenticated()) {
+//   const post = Post.create({
+//     text: req.body.text,
+//     author: req.context.me._id,
+//     image: url + "/images/" + imgName,
+//   })
+//     .then(function (response) {
+//       res.send(post);
+//     })
+//     .catch(function (error) {
+//       console.log(error);
+//     });
+
+// } else {
+//   res.send("You are not authenticated");
+// }
+// };
 
 // get a specific post.
 exports.post_detail = async (req, res) => {

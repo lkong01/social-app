@@ -4,37 +4,14 @@ const multer = require("multer");
 
 // get all posts.
 exports.posts_list = async (req, res) => {
-  // if (req.isAuthenticated()) {
   const posts = await Post.find()
     .sort({ createdAt: "desc" })
     .populate("author");
   return res.send(posts);
-  //   } else {
-  //     res.send("You are not authenticated");
-  //   }
-  // };
 };
 
+//located directly in the router
 // exports.post_create = (req, res) => {
-//   const url = req.protocol + "://" + req.get("host");
-
-//   const imgName = req.file ? req.file.filename : "";
-//   // if (req.isAuthenticated()) {
-//   const post = Post.create({
-//     text: req.body.text,
-//     author: req.context.me._id,
-//     image: url + "/images/" + imgName,
-//   })
-//     .then(function (response) {
-//       res.send(post);
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     });
-
-// } else {
-//   res.send("You are not authenticated");
-// }
 // };
 
 // get a specific post.
@@ -75,13 +52,26 @@ exports.post_delete = async (req, res) => {
 
   //check if the person owns the post before delete
   if (
-    post
+    post &&
+    req.context.me._id.equals(post.author)
     // req.isAuthenticated &&
     // res.locals.currentUser._id.equals(post.author)
   ) {
     await post.remove();
+
+    await User.findOneAndUpdate(
+      { _id: req.context.me._id },
+      {
+        $pull: {
+          posts: post._id,
+        },
+      }
+    ).catch(function (error) {
+      console.log(error);
+    });
+
     return res.send(post);
   } else {
-    return res.send("no such post");
+    return res.send("no such post or not the author");
   }
 };

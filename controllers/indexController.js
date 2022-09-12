@@ -3,31 +3,14 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
-exports.signUp = async (req, res) => {
-  bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
-    // if err, do something
-    // otherwise, store hashedPassword in DB
-    if (err) {
-      return next(err);
-    } else {
-      const user = new User({
-        username: req.body.username,
-        password: hashedPassword,
-      }).save((err) => {
-        if (err) {
-          return next(err);
-        }
-        res.redirect("/");
-      });
-    }
-  });
-};
+//directly at index router now
+// exports.signUp = async (req, res) => {
+// };
 
-exports.login = (req, res, next) => {
-  //if (err) next(err);
-  console.log("here");
-  return res.send(req);
-};
+//also at index router now
+// exports.login = (req, res, next) => {
+//   return res.send(req);
+// };
 
 exports.logout = (req, res) => {
   req.logout(function (err) {

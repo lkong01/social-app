@@ -29,7 +29,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use(async (req, res, next) => {
   req.context = {
-    me: await User.findByLogin("q"),
+    me: await User.findByLogin(),
   };
   next();
 });
@@ -82,52 +82,10 @@ const corsConfig = {
 };
 app.use(cors(corsConfig));
 
-// app.use(function (req, res, next) {
-//   // console.log(req.user);
-//   res.locals.currentUser = req.user;
-//   next();
-// });
-// app.all("*", function (req, res, next) {
-//   res.setHeader(
-//     "Access-Control-Allow-Origin",
-//     req.header("origin") ||
-//       req.header("x-forwarded-host") ||
-//       req.header("referer") ||
-//       req.header("host")
-//   );
-//   next();
-// });
-// passport.use(
-//   new LocalStrategy((username, password, done) => {
-//     User.findOne({ username: username }, (err, user) => {
-//       console.log(password, user, bcrypt.compare(user.password, password));
-//       if (err) {
-//         return done(err);
-//       }
-//       if (!user) {
-//         return done(null, false, { message: "Incorrect username" });
-//       }
-//       if (!bcrypt.compare(user.password, password)) {
-//         return done(null, false, { message: "Incorrect password" });
-//       }
-//       return done(null, user);
-//     });
-//   })
-// );
-
-// passport.serializeUser(function (user, done) {
-//   done(null, user.id);
-// });
-
-// passport.deserializeUser(function (id, done) {
-//   User.findById(id, function (err, user) {
-//     done(err, user);
-//   });
-// });
 passport.use(
-  new LocalStrategy((username, password, done) => {
+  new LocalStrategy((email, password, done) => {
     // sign in with either username or password.
-    User.findOne({ username: username }, (err, user) => {
+    User.findOne({ email: username }, (err, user) => {
       if (err) throw err;
       if (!user) return done(null, false);
 

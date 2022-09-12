@@ -1,8 +1,11 @@
 const User = require("../models/user");
 
 // Display detail page for a specific User.
-exports.user_detail = (req, res) => {
-  res.send(`NOT IMPLEMENTED: User detail: ${req.params.id}`);
+exports.user_detail = async (req, res) => {
+  const user = await User.findById(req.params.id).populate("friends");
+
+  console.log(user);
+  return res.send(user);
 };
 
 // Display User create form on GET.

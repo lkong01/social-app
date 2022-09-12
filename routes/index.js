@@ -52,7 +52,9 @@ router.post("/signup", upload.single("profileImg"), (req, res, next) => {
     const avatar = req.file ? req.file.filename : "user-default-avatar.png";
 
     const user = new User({
-      username: req.body.username,
+      email: req.body.email,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       password: hashedPassword,
       profileImg: url + "/images/" + avatar,
     });

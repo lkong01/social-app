@@ -10,6 +10,7 @@ const comment_controller = require("../controllers/commentController");
 const like_controller = require("../controllers/likeController");
 
 const Post = require("../models/post");
+const User = require("../models/user");
 
 const DIR = "./public/images/";
 const storage = multer.diskStorage({
@@ -39,18 +40,31 @@ var upload = multer({
 });
 
 // POST request for creating Post.
-// router.post("/", post_controller.post_create);
-router.post("/", upload.single("image"), (req, res, next) => {
+router.post("/", upload.single("image"), async (req, res, next) => {
   const url = req.protocol + "://" + req.get("host");
 
   const imgName = req.file ? req.file.filename : "";
-  // if (req.isAuthenticated()) {
-  console.log(req.body.text, req.context.me._id, imgName, url);
+
+  // console.log(req.body.text, req.context.me._id, imgName, url);
   const post = new Post({
     text: req.body.text,
     author: req.context.me._id,
     image: url + "/images/" + imgName,
   });
+
+  if (post) {
+    await User.findOneAndUpdate(
+      { _id: req.context.me._id },
+      {
+        $push: {
+          posts: post._id,
+        },
+      }
+    ).catch(function (error) {
+      console.log(error);
+    });
+  }
+
   post
     .save()
     .then((result) => {

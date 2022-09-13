@@ -7,6 +7,7 @@ exports.posts_list = async (req, res) => {
   const posts = await Post.find()
     .sort({ createdAt: "desc" })
     .populate("author");
+
   return res.send(posts);
 };
 

@@ -108,6 +108,7 @@ router.put("/:postId/comment/:commentId", comment_controller.comment_update);
 
 /***********  like controller ***************/
 router.get("/:id/likes", like_controller.likes_list);
+router.get("/:id/like", like_controller.like_detail);
 router.post("/:id/like", like_controller.like_create);
 router.delete("/:id/like", like_controller.like_delete);
 

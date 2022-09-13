@@ -4,7 +4,7 @@ const User = require("../models/user");
 exports.user_detail = async (req, res) => {
   const user = await User.findById(req.params.id).populate("friends");
 
-  console.log(user);
+  // console.log(user);
   return res.send(user);
 };
 

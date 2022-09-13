@@ -7,14 +7,27 @@ exports.comments_list = () => {};
 exports.comments_list = async (req, res) => {
   // console.log(req.params);
   const comments = await Post.findById(req.params.id)
-    .sort({ updatedAt: "desc" })
-    .populate("comments");
+    .sort({ createdAt: "desc" })
+    .populate({ path: "comments", populate: { path: "author" } });
   return res.send(comments);
   //   } else {
   //     res.send("You are not authenticated");
   //   }
   // };
 };
+
+// Post.findOne({ _id: req.params.postId }).populate([
+//   {
+//     path: "comments",
+//     populate: [{ path: "user" }],
+//   },
+// ]);
+
+// User.findOne({ name: "Val" }).populate({
+//   path: "friends",
+//   // Get friends of friends - populate the 'friends' array for every friend
+//   populate: { path: "friends" },
+// });
 
 exports.comment_create = async (req, res, next) => {
   const comment = await Comment.create({

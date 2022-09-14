@@ -9,4 +9,6 @@ router.get("/:id", user_controller.user_detail);
 //get user posts
 router.get("/:id/posts", post_controller.user_posts);
 
+router.get("/search/:word", user_controller.user_search);
+
 module.exports = router;

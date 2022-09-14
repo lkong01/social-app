@@ -36,7 +36,7 @@ UserSchema.statics.findByLogin = async function (login) {
       email: "kbird@email.com",
     });
   }
-  console.log(user);
+  // console.log(user);
   return user;
 };
 

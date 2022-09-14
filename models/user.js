@@ -27,7 +27,7 @@ UserSchema.virtual("url").get(function () {
 
 UserSchema.statics.findByLogin = async function (login) {
   let user = await this.findOne({
-    username: login,
+    email: login,
   });
 
   if (!user) {
@@ -36,7 +36,7 @@ UserSchema.statics.findByLogin = async function (login) {
       email: "kbird@email.com",
     });
   }
-
+  console.log(user);
   return user;
 };
 

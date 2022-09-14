@@ -31,6 +31,7 @@ app.use(async (req, res, next) => {
   req.context = {
     me: await User.findByLogin(),
   };
+  // console.log(req.context.me);
   next();
 });
 
@@ -81,41 +82,6 @@ const corsConfig = {
   origin: "http://localhost:3001",
 };
 app.use(cors(corsConfig));
-
-passport.use(
-  new LocalStrategy((email, password, done) => {
-    // sign in with either username or password.
-    User.findOne({ email: username }, (err, user) => {
-      if (err) throw err;
-      if (!user) return done(null, false);
-
-      bcrypt.compare(password, user.password, (err, result) => {
-        // console.log(password, user, result);
-        if (err) throw err;
-        if (result === true) {
-          return done(null, user);
-        } else {
-          return done(null, false);
-        }
-      });
-    });
-  })
-);
-
-passport.serializeUser((user, cb) => {
-  console.log("serilize");
-  cb(null, user.id);
-  console.log(user.id);
-});
-passport.deserializeUser((id, cb) => {
-  User.findById(id, (err, user) => {
-    console.log("deserilieze");
-    // const userInformation = {
-    //   username: user.username,
-    // };
-    cb(err, user);
-  });
-});
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Credentials", true);

@@ -76,3 +76,15 @@ exports.post_delete = async (req, res) => {
     return res.send("no such post or not the author");
   }
 };
+
+//get user posts sorted by most recent
+exports.user_posts = async (req, res) => {
+  const posts = await User.findById(req.params.id)
+    .populate({
+      path: "posts",
+      options: { sort: [{ createdAt: "desc" }] },
+      populate: { path: "author" },
+    })
+    .sort({ createdAt: "desc" });
+  return res.send(posts);
+};

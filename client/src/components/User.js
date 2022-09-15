@@ -97,11 +97,7 @@ function User(props) {
                   <div className="post-content">
                     <div className="post-text">{post.text}</div>
 
-                    {post.image != "http://localhost:3000/images/" ? (
-                      <img src={post.image} alt="post-img" />
-                    ) : (
-                      ""
-                    )}
+                    {post.image ? <img src={post.image} alt="post-img" /> : ""}
                   </div>
 
                   <Comment postId={post._id}></Comment>

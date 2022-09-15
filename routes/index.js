@@ -79,42 +79,6 @@ router.post("/signup", upload.single("profileImg"), (req, res, next) => {
   });
 });
 
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    // sign in with either username or password.
-    console.log("strategy");
-    User.findOne({ email: username }, (err, user) => {
-      // console.log(user);
-      if (err) throw err;
-      if (!user) return done(null, false);
-
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (err) throw err;
-        if (result === true) {
-          return done(null, user);
-        } else {
-          return done(null, false);
-        }
-      });
-    });
-  })
-);
-
-passport.serializeUser((user, cb) => {
-  console.log("ser");
-  cb(null, user.id);
-  console.log(user.id);
-});
-passport.deserializeUser((id, cb) => {
-  console.log("deser");
-  User.findById(id, (err, user) => {
-    // const userInformation = {
-    //   username: user.username,
-    // };
-    cb(err, user);
-  });
-});
-
 router.post(
   "/login",
   // passport.authenticate("local", {

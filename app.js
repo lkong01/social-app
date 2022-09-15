@@ -27,17 +27,45 @@ mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-app.use(async (req, res, next) => {
-  req.context = {
-    me: await User.findByLogin(),
-  };
-  // console.log(req.context.me);
-  next();
-});
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
+
+passport.use(
+  new LocalStrategy((username, password, done) => {
+    // sign in with either username or password.
+    console.log("strategy");
+    User.findOne({ email: username }, (err, user) => {
+      // console.log(user);
+      if (err) throw err;
+      if (!user) return done(null, false);
+
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) throw err;
+        if (result === true) {
+          return done(null, user);
+        } else {
+          return done(null, false);
+        }
+      });
+    });
+  })
+);
+
+passport.serializeUser((user, cb) => {
+  console.log("ser");
+  cb(null, user.id);
+  console.log(user.id);
+});
+passport.deserializeUser((id, cb) => {
+  console.log("deser");
+  User.findById(id, (err, user) => {
+    // const userInformation = {
+    //   username: user.username,
+    // };
+    cb(err, user);
+  });
+});
 
 app.use(
   session({
@@ -55,28 +83,29 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(async (req, res, next) => {
+  req.context = {
+    me: await User.findByLogin(),
+    // me: req.user,
+  };
+
+  next();
+});
+
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+
+  console.log("who am i", req.user);
+
+  next();
+});
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser("cats"));
 app.use(express.static(path.join(__dirname, "public")));
 
-// const corsOptions = {
-//   //To allow requests from client
-//   origin: false,
-//   credentials: true,
-//   //exposedHeaders: ["set-cookie"],
-//   // allowHeaders: ["Content-Type", "Authorization"],
-// };
-// app.use(cors(corsOptions));
-// const corsConfig = {
-//   origin: true,
-//   credentials: true,
-// };
-
-// app.use(cors(corsConfig));
-// app.options("*", cors(corsConfig));
-// app.use(cors());
 const corsConfig = {
   credentials: true,
   origin: "http://localhost:3001",
@@ -96,10 +125,10 @@ app.use(function (req, res, next) {
 app.set("trust proxy", 1);
 
 //Routes
-app.use("/", indexRouter);
-app.use("/user", userRouter);
-app.use("/posts", postsRouter); // Add catalog routes to middleware chain.
-app.use("/post", postRouter);
+app.use("/api/", indexRouter);
+app.use("/api/user", userRouter);
+app.use("/api/posts", postsRouter); // Add catalog routes to middleware chain.
+app.use("/api/post", postRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -2,7 +2,7 @@ const User = require("../models/user");
 
 // Display detail page for a specific User.
 exports.user_detail = async (req, res) => {
-  console.log(req.params.word);
+  // console.log(req.isAuthenticated(), req.user);
   const user = await User.findById(req.params.id).populate("friends");
 
   // console.log(user);

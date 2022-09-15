@@ -4,7 +4,7 @@ const multer = require("multer");
 
 // get all posts.
 exports.posts_list = async (req, res) => {
-  console.log("authen?", req.isAuthenticated);
+  console.log("auth?", req.isAuthenticated);
   const posts = await Post.find()
     .sort({ createdAt: "desc" })
     .populate("author");

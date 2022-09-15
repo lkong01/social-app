@@ -31,42 +31,6 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-passport.use(
-  new LocalStrategy((username, password, done) => {
-    // sign in with either username or password.
-    console.log("strategy");
-    User.findOne({ email: username }, (err, user) => {
-      // console.log(user);
-      if (err) throw err;
-      if (!user) return done(null, false);
-
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (err) throw err;
-        if (result === true) {
-          return done(null, user);
-        } else {
-          return done(null, false);
-        }
-      });
-    });
-  })
-);
-
-passport.serializeUser((user, cb) => {
-  console.log("ser");
-  cb(null, user.id);
-  console.log(user.id);
-});
-passport.deserializeUser((id, cb) => {
-  console.log("deser");
-  User.findById(id, (err, user) => {
-    // const userInformation = {
-    //   username: user.username,
-    // };
-    cb(err, user);
-  });
-});
-
 app.use(
   session({
     secret: "cats",
@@ -95,7 +59,7 @@ app.use(async (req, res, next) => {
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
 
-  console.log("who am i", req.user);
+  // console.log("who am i", req.user);
 
   next();
 });
@@ -105,6 +69,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser("cats"));
 app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "client/build")));
 
 const corsConfig = {
   credentials: true,
@@ -129,6 +94,9 @@ app.use("/api/", indexRouter);
 app.use("/api/user", userRouter);
 app.use("/api/posts", postsRouter); // Add catalog routes to middleware chain.
 app.use("/api/post", postRouter);
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

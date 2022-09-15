@@ -43,13 +43,13 @@ var upload = multer({
 router.post("/", upload.single("image"), async (req, res, next) => {
   const url = req.protocol + "://" + req.get("host");
 
-  const imgName = req.file ? req.file.filename : "";
+  const imgUrl = req.file ? `${url}/images/${req.file.filename}` : "";
 
   // console.log(req.body.text, req.context.me._id, imgName, url);
   const post = new Post({
     text: req.body.text,
     author: req.context.me._id,
-    image: url + "/images/" + imgName,
+    image: imgUrl,
   });
 
   if (post) {

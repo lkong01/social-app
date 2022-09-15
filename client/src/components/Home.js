@@ -1,101 +1,21 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import "../styles/Home.css";
 
-function Home() {
-  useEffect(() => {
-    fetchItems();
-  }, []);
+import Nav from "./Nav";
+import Posts from "./Posts";
+import UserInfo from "./UserInfo";
 
-  const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState("What's happening?");
-
-  const fetchItems = async () => {
-    const res = await axios.get("http://localhost:3000/posts/", {
-      withCredentials: true,
-    });
-    console.log(res.data);
-    setPosts(res.data);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    axios({
-      method: "post",
-      url: "http://localhost:3000/posts/post/create",
-      data: {
-        text: newPost,
-      },
-      withCredentials: true,
-    })
-      .then(function (response) {
-        console.log(response);
-        //window.location.reload();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  const handleChange = (e) => {
-    console.log(e.target.value);
-    setNewPost(e.target.value);
-  };
-
-  const handleDelete = (e) => {
-    console.log(e.target.value);
-    axios
-      .delete(
-        "http://localhost:3000/posts/post/" + String(e.target.value) + "/delete"
-      )
-      .then(function (response) {
-        console.log(response);
-        window.location.reload();
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  // const handleEdit = (e) => {
-  //   console.log(e.target);
-  //   // axios
-  //   //   .edit(
-  //   //     "http://localhost:3000/posts/post/" + String(e.target.value) + "/delete"
-  //   //   )
-  //   //   .then(function (response) {
-  //   //     console.log(response);
-  //   //     window.location.reload();
-  //   //   })
-  //   //   .catch(function (error) {
-  //   //     console.log(error);
-  //   //   });
-  // };
-
+function Home(props) {
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          name="newPost"
-          id="newPost"
-          cols="30"
-          rows="5"
-          value={newPost}
-          onChange={handleChange}
-        />
-        <button type="submit">Post</button>
-      </form>
-      {/* {posts.map((post) => {
-        return (
-          <div key={post._id}>
-            {post.text}
+    <div className="home">
+      <Nav></Nav>
 
-            <button value={post._id} onClick={handleDelete}>
-              Delete
-            </button>
-          </div>
-        );
-      })}{" "} */}
+      <div className="profile-main">
+        <UserInfo
+          //pass user id from local storage saved during login
+          userId={JSON.parse(localStorage.getItem("user"))._id}
+        ></UserInfo>
+        <Posts></Posts>
+      </div>
     </div>
   );
 }

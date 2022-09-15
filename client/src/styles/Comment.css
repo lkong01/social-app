@@ -1,0 +1,123 @@
+.comments{
+   display:flex;
+   flex-direction: column;
+   gap:0.8rem;
+}
+/* ***************comment options****************** */
+
+.comment-option{
+   display: flex;
+   text-align: center;
+   gap: 0.5rem;
+  
+}
+.like{
+flex:1;
+display: flex;
+justify-content: center;
+}
+
+.like:hover{
+   cursor:pointer
+}
+.comment-option button{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   gap: 0.5rem;
+   padding: 0.5rem;
+   border-radius: 0.5rem;
+   font-size: 1rem;
+}
+
+ .comment-option button:hover {
+   background-color: #cdcdcd; 
+   color: white;
+ }
+
+.comment-option img{
+   width: 1.3rem;
+   height:1.3rem;
+
+}
+
+.comment-option button{
+   flex:1;
+}
+
+/* *******************new comment input************* */
+.new-comment form{
+   display:flex;
+   gap: 0.5rem;
+}
+
+.new-comment input{
+   flex:1;
+   padding: 0.5rem;
+   border-radius: 0.3rem;
+   border: grey solid 1px;
+   background-color: #f0f2f5;
+}
+
+.new-comment button{
+   background-color: #1b74e4;
+   color:white;
+   border-radius: 0.3rem;
+   padding: 0.5rem;
+}
+
+.new-comment button:hover{
+   background-color: #0853ae; 
+}
+
+
+/* *************comments */
+.comment{
+   display:flex;
+   gap: 0.5rem;
+   align-items: center;
+}
+.comment-main{
+   display:flex;
+   flex-direction: column;
+   background-color: #f0f2f5;
+   padding:0.5rem;
+   border-radius: 0.5rem;
+}
+.comment-header{
+   display:flex; 
+   gap: 0.5rem;
+   align-items: center;
+}
+.comment img{
+   width: 40px;
+   height:40px;
+   border-radius: 50%;
+}
+
+.comment-author{
+   font-size: 0.8rem;
+   font-weight: 600;
+}
+
+.comment-date{
+   font-size: 0.7rem;
+   color:#06060690;
+}
+
+.comment-text{
+   font-size: 0.8rem;
+}
+
+.comment-header button{
+   display: flex;
+   align-items: center;
+
+   border-radius: 50%;
+}
+
+.comment-header button:hover{
+   background-color: #cdcdcd; 
+   color: white;
+   
+}

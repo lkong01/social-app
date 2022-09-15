@@ -1,0 +1,161 @@
+    
+.posts{
+    flex: 0 1 700px;
+    padding:1rem 1.5rem 0 0;
+}
+
+/* ******************new post input ************ */
+.new-post{
+    background-color: white;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
+}
+.new-post form{
+    display:flex;
+    flex-direction: column;
+    border:none;
+    
+}
+.new-post textarea{
+    resize:none;
+    
+    border: none;
+    padding:0.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    
+}
+
+.new-post textarea:focus{
+    background-color: #f0f2f5; 
+    
+}
+
+
+.home-posts{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+}
+
+.new-post-img-input {
+    /* opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute; */
+    display: none;
+  }
+
+.new-post label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.2rem;
+    background-color: #86868667;
+
+    cursor: pointer;
+    transition: transform .2s ease-out;
+    padding:0.5rem;
+    }
+      
+.new-post label:hover{
+    background-color: #cdcdcd; 
+    color: white;
+
+}
+.new-post label img{
+    width:16px;
+    height:16px;
+}
+
+.new-post button{
+    padding: 0.5rem;
+    font-size: 1rem;
+    background-color: #1b74e4;
+    color:white;
+    border-radius: 0.3rem;
+}
+
+
+.new-post button:hover{
+    background-color: #0853ae; 
+ }
+/*************************** post header************************ */
+.post-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post-author{
+    display:flex;
+    gap:0.7rem;
+    font-weight: 600;
+    align-items: center;
+}
+
+.post-time{
+    font-size: 0.7rem;
+    color:rgb(93, 92, 91)
+}
+
+.post-author img{
+ width:50px;
+ height:50px;
+ overflow:hidden;
+ border-radius: 50%;
+}
+
+.post-head button{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.7rem;
+    color:grey;
+    border-radius: 0.2rem;
+    padding: 0.5rem;
+}
+
+.post-head button:hover {
+    background-color: #cdcdcd; 
+    color: white;
+  }
+
+.post-delete-img{
+    width:1.2rem;
+    height:1.2rem;
+    color:grey;
+}
+.post-author a{
+    color:black;
+}
+
+/* ********************** post content************** */
+.post{
+    box-shadow:  0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+
+.post-content{
+padding: 1rem 0;
+display:flex;
+flex-direction: column;
+gap:0.6rem;
+}
+
+.post-content img{
+    /* max-width: 600px; */
+    width:100%;
+    height:auto;
+}
+
+.post-text{
+    /* padding-bottom: 1rem; */
+    font-size: 1.1rem;
+
+}
